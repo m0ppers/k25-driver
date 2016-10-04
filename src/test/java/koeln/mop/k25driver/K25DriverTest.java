@@ -27,28 +27,30 @@ public class K25DriverTest {
 
 	@Test
 	public void testSpeed() {
-		driver.setSpeed(new Speed() {
-			public void setSpeedValue(int speed) {
-				assertEquals(15, speed);
-			}
-		});
 		CanMessage message = new CanMessage();
 		message.setAddress(K25Address.REARWHEEL.getValue());
-		message.setData(3, (byte) 0xff);
+		message.setData(2, (byte) 0xff);
 		driver.onCanMessage(message);
+		assertEquals(15, driver.getRearSpeed());
 	}
 	
 	@Test
 	public void testOdometer() {
-		driver.setOdometer(new Odometer() {
-			public void setOdometerValue(int odometer) {
-				assertEquals(43713, odometer);
-			}
-		});
 		CanMessage message = new CanMessage();
 		message.setAddress(K25Address.ODOMETER.getValue());
 		message.setData(2, (byte) 0xc1);
 		message.setData(3, (byte) 0xaa);
 		driver.onCanMessage(message);
+		assertEquals(43713, driver.getOdometer());
+	}
+	
+	@Test
+	public void testRpm() {
+		CanMessage message = new CanMessage();
+		message.setAddress(K25Address.THROTTLE.getValue());
+		message.setData(2, (byte) 0xd7);
+		message.setData(3, (byte) 0x6);
+		driver.onCanMessage(message);
+		assertEquals(1751, driver.getRPM());
 	}
 }
