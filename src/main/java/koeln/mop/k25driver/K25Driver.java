@@ -1,7 +1,5 @@
 package koeln.mop.k25driver;
 
-import koeln.mop.kew2000.state.Odometer;
-import koeln.mop.kew2000.state.Speed;
 import koeln.mop.canbusmatcher.CanMessage;
 import koeln.mop.canbusmatcher.CanMessageRecipient;
 import koeln.mop.canbusmatcher.ConsumeResult;
