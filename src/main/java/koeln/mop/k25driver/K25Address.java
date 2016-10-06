@@ -4,6 +4,8 @@ public enum K25Address {
 	THROTTLE(0x10c),
 	FRONTWHEEL(0x294),
 	REARWHEEL(0x2a8),
+	ENGINE(0x2bc),
+	ZFE(0x2d0),
 	ODOMETER(0x3f8);
 	
     private final int value;

@@ -51,4 +51,26 @@ public class K25DriverTest {
 		driver.onCanMessage(message);
 		assertEquals(1751, driver.getRPM());
 	}
+	
+	@Test
+	public void testEngine() {
+		CanMessage message = new CanMessage();
+		message.setAddress(K25Address.ENGINE.getValue());
+		message.setData(2, (byte) 0x67);
+		message.setData(5, (byte) 0x4);
+		message.setData(7, (byte) 0x61);
+		driver.onCanMessage(message);
+		assertEquals(24.75, driver.getAirTemperature(), 0.0001);
+		assertEquals(53.25, driver.getEngineTemperature(), 0.0001);
+		assertEquals(2, driver.getGear());
+	}
+	
+	@Test
+	public void testZfe() {
+		CanMessage message = new CanMessage();
+		message.setAddress(K25Address.ZFE.getValue());
+		message.setData(3, (byte) 0x98);
+		driver.onCanMessage(message);
+		assertEquals(0.5960, driver.getFuelLevel(), 0.0001);
+	}
 }
