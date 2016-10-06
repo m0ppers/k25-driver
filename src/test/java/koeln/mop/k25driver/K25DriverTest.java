@@ -7,8 +7,6 @@ import org.junit.Test;
 
 import koeln.mop.canbusmatcher.CanMessage;
 import koeln.mop.canbusmatcher.ConsumeResult;
-import koeln.mop.kew2000.state.Odometer;
-import koeln.mop.kew2000.state.Speed;
 
 public class K25DriverTest {
 	private K25Driver driver;
