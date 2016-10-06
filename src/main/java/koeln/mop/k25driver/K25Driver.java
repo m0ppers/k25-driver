@@ -86,7 +86,7 @@ public class K25Driver implements CanMessageRecipient {
 	
 	private ConsumeResult parseOdometer(CanMessage message) {
 		ConsumeResult result = new ConsumeResult();
-		int odometer = ((message.getData(4) & 0xff) << 16) | ((message.getData(3) & 0xff) << 8) | (message.getData(2) & 0xff);
+		int odometer = ((message.getData(3) & 0xff) << 16) | ((message.getData(2) & 0xff) << 8) | (message.getData(1) & 0xff);
 		this.odometer = odometer;
 		result.handled = 0xffffff00;
 		return result;

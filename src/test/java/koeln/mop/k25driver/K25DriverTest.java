@@ -36,8 +36,8 @@ public class K25DriverTest {
 	public void testOdometer() {
 		CanMessage message = new CanMessage();
 		message.setAddress(K25Address.ODOMETER.getValue());
-		message.setData(2, (byte) 0xc1);
-		message.setData(3, (byte) 0xaa);
+		message.setData(1, (byte) 0xc1);
+		message.setData(2, (byte) 0xaa);
 		driver.onCanMessage(message);
 		assertEquals(43713, driver.getOdometer());
 	}
