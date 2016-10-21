@@ -1,10 +1,10 @@
 package koeln.mop.k25driver;
 
 import koeln.mop.canbusmatcher.CanMessage;
-import koeln.mop.canbusmatcher.CanMessageRecipient;
+import koeln.mop.canbusmatcher.CanDriver;
 import koeln.mop.canbusmatcher.ConsumeResult;
 
-public class K25Driver implements CanMessageRecipient {
+public class K25Driver implements CanDriver {
 	private int frontSpeed;
 	private int rearSpeed;
 	private int odometer;
@@ -44,6 +44,18 @@ public class K25Driver implements CanMessageRecipient {
 	
 	public double getFuelLevel() {
 		return fuelLevel;
+	}
+	
+	@Override
+	public long[] getAddresses() {
+		long[] addresses = {
+			K25Address.ENGINE.getValue(),
+			K25Address.THROTTLE.getValue(),
+			K25Address.REARWHEEL.getValue(),
+			K25Address.ODOMETER.getValue(),
+			K25Address.ZFE.getValue()
+		};
+		return addresses;
 	}
 	
 	@Override
