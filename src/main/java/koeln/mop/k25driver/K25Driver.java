@@ -83,7 +83,7 @@ public class K25Driver implements CanDriver {
 	
 	private ConsumeResult parseThrottle(CanMessage message) {
 		ConsumeResult result = new ConsumeResult();
-		this.rpm = (int) (message.getData(3) & 0xff) * 256 + (message.getData(2) & 0xff);
+		this.rpm = (int) ((message.getData(3) & 0xff) * 256 + (message.getData(2) & 0xff)) / 4;
 		result.handled = 0xffff0000;
 		return result;
 	}

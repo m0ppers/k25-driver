@@ -49,7 +49,7 @@ public class K25DriverTest {
 		message.setData(2, (byte) 0xd7);
 		message.setData(3, (byte) 0x6);
 		driver.onCanMessage(message);
-		assertEquals(1751, driver.getRPM());
+		assertEquals(437, driver.getRPM());
 	}
 	
 	@Test
