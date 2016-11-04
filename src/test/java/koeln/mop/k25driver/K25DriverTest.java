@@ -28,8 +28,11 @@ public class K25DriverTest {
 		CanMessage message = new CanMessage();
 		message.setAddress(K25Address.REARWHEEL.getValue());
 		message.setData(2, (byte) 0xff);
+		message.setData(4, (byte) 0xff);
+		message.setData(5, (byte) 0xcf);
 		driver.onCanMessage(message);
 		assertEquals(15, driver.getRearSpeed());
+		assertEquals(53247, driver.getRearTraveled());
 	}
 	
 	@Test

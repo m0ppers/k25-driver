@@ -7,6 +7,8 @@ import koeln.mop.canbusmatcher.ConsumeResult;
 public class K25Driver implements CanDriver {
 	private int frontSpeed;
 	private int rearSpeed;
+	private int frontTraveled;
+	private int rearTraveled;
 	private int odometer;
 	private int rpm;
 	private int gear;
@@ -20,6 +22,14 @@ public class K25Driver implements CanDriver {
 	
 	public int getRearSpeed() {
 		return rearSpeed;
+	}
+	
+	public int getFrontTraveled() {
+		return frontTraveled;
+	}
+	
+	public int getRearTraveled() {
+		return rearTraveled;
 	}
 
 	public int getOdometer() {
@@ -90,9 +100,10 @@ public class K25Driver implements CanDriver {
 	
 	private ConsumeResult parseRearWheel(CanMessage message) {
 		ConsumeResult result = new ConsumeResult();
-		// mop: wtf
+		// mop: wtf 0.06 :S
 		this.rearSpeed = (int) (((message.getData(3) & 0xff) * 256 + (message.getData(2) & 0xff)) * 0.06);
-		result.handled = 0xffff0000;
+		this.rearTraveled = (message.getData(5) & 0xff) * 256 + (message.getData(4) & 0xff); 
+		result.handled = 0xffffffff0000L;
 		return result;
 	}
 	
