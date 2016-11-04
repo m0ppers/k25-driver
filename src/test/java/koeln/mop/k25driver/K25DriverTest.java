@@ -57,7 +57,7 @@ public class K25DriverTest {
 		CanMessage message = new CanMessage();
 		message.setAddress(K25Address.ENGINE.getValue());
 		message.setData(2, (byte) 0x67);
-		message.setData(5, (byte) 0x4);
+		message.setData(5, (byte) 0x40);
 		message.setData(7, (byte) 0x61);
 		driver.onCanMessage(message);
 		assertEquals(24.75, driver.getAirTemperature(), 0.0001);

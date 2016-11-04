@@ -113,7 +113,7 @@ public class K25Driver implements CanDriver {
 	
 	private ConsumeResult parseEngine(CanMessage message) {
 		ConsumeResult result = new ConsumeResult();
-		int gearInfo = message.getData(5) & 0xf;
+		int gearInfo = (message.getData(5) >> 4) & 0xf;
 		
 		result.handled = 0xf0000000000L;
 		switch(gearInfo) {
