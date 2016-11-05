@@ -193,6 +193,7 @@ public class K25Driver implements CanDriver {
 	
 		throttlePosition = (message.getData(1) & 0xff) / 255;
 		result.handled |= 0xff00L;
+		System.out.println("ENGINE HANDLED " + result.handled);
 		return result;
 	}
 	
