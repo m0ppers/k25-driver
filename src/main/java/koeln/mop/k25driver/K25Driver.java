@@ -118,7 +118,8 @@ public class K25Driver implements CanDriver {
 	private ConsumeResult parseThrottle(CanMessage message) {
 		ConsumeResult result = new ConsumeResult();
 		this.rpm = (int) ((message.getData(3) & 0xff) * 256 + (message.getData(2) & 0xff)) / 4;
-		result.handled = 0xffff0000;
+		throttlePosition = (message.getData(1) & 0xff) / 255;
+		result.handled = 0xffffff00L;
 		return result;
 	}
 	
@@ -191,9 +192,6 @@ public class K25Driver implements CanDriver {
 		airTemperature = (message.getData(7) & 0xff) * 0.75 - 48;	
 		result.handled |= 0xff00000000ff0000L;
 	
-		throttlePosition = (message.getData(1) & 0xff) / 255;
-		result.handled |= 0xff00L;
-		System.out.println("ENGINE HANDLED " + result.handled);
 		return result;
 	}
 	
