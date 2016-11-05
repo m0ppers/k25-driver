@@ -59,13 +59,16 @@ public class K25DriverTest {
 	public void testEngine() {
 		CanMessage message = new CanMessage();
 		message.setAddress(K25Address.ENGINE.getValue());
+		message.setData(1, (byte) 0xff);
 		message.setData(2, (byte) 0x67);
 		message.setData(5, (byte) 0x40);
 		message.setData(7, (byte) 0x61);
-		driver.onCanMessage(message);
+		ConsumeResult result = driver.onCanMessage(message);
 		assertEquals(24.75, driver.getAirTemperature(), 0.0001);
 		assertEquals(53.25, driver.getEngineTemperature(), 0.0001);
 		assertEquals(2, driver.getGear());
+		assertEquals(1.0, driver.getThrottlePosition(), 0.0001);
+		assertEquals(0xff000f0000ffff00L, result.handled);
 	}
 	
 	@Test
