@@ -64,6 +64,16 @@ public class K25Driver implements CanDriver {
 		return throttlePosition;
 	}
 	
+	public boolean getLeftTurnSignal() {
+		return leftTurnSignal;
+	}
+	public boolean getRightTurnSignal() {
+		return rightTurnSignal;
+	}
+	public boolean getHighBeam() {
+		return highBeam;
+	}
+	
 	@Override
 	public long[] getAddresses() {
 		long[] addresses = {
