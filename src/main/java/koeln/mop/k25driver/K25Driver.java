@@ -15,6 +15,7 @@ public class K25Driver implements CanDriver {
 	private double engineTemperature;
 	private double airTemperature;
 	private double fuelLevel;
+	private double throttlePosition;
 	
 	public int getFrontSpeed() {
 		return frontSpeed;
@@ -56,11 +57,16 @@ public class K25Driver implements CanDriver {
 		return fuelLevel;
 	}
 	
+	public double getThrottlePosition() {
+		return throttlePosition;
+	}
+	
 	@Override
 	public long[] getAddresses() {
 		long[] addresses = {
 			K25Address.ENGINE.getValue(),
 			K25Address.THROTTLE.getValue(),
+			K25Address.FRONTWHEEL.getValue(),
 			K25Address.REARWHEEL.getValue(),
 			K25Address.ODOMETER.getValue(),
 			K25Address.ZFE.getValue()
@@ -78,6 +84,8 @@ public class K25Driver implements CanDriver {
 		switch(address) {
 			case THROTTLE:
 				return parseThrottle(message);
+			case FRONTWHEEL:
+				return parseFrontWheel(message);
 			case REARWHEEL:
 				return parseRearWheel(message);
 			case ODOMETER:
@@ -103,6 +111,15 @@ public class K25Driver implements CanDriver {
 		// mop: wtf 0.06 :S
 		this.rearSpeed = (int) (((message.getData(3) & 0xff) * 256 + (message.getData(2) & 0xff)) * 0.06);
 		this.rearTraveled = (message.getData(5) & 0xff) * 256 + (message.getData(4) & 0xff); 
+		result.handled = 0xffffffff0000L;
+		return result;
+	}
+	
+	private ConsumeResult parseFrontWheel(CanMessage message) {
+		ConsumeResult result = new ConsumeResult();
+		// mop: wtf 0.06 :S
+		this.frontSpeed = (int) (((message.getData(3) & 0xff) * 256 + (message.getData(2) & 0xff)) * 0.06);
+		this.frontTraveled = (message.getData(5) & 0xff) * 256 + (message.getData(4) & 0xff); 
 		result.handled = 0xffffffff0000L;
 		return result;
 	}
@@ -155,9 +172,11 @@ public class K25Driver implements CanDriver {
 		}
 		
 		engineTemperature = (message.getData(2) & 0xff) * 0.75 - 24;
-		airTemperature = (message.getData(7) & 0xff) * 0.75 - 48;
-		
+		airTemperature = (message.getData(7) & 0xff) * 0.75 - 48;	
 		result.handled |= 0xff00000000ff0000L;
+	
+		throttlePosition = (message.getData(1) & 0xff) / 255;
+		result.handled |= 0xff00L;
 		return result;
 	}
 }
