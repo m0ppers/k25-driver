@@ -119,7 +119,8 @@ public class K25Driver implements CanDriver {
 		ConsumeResult result = new ConsumeResult();
 		this.rpm = (int) ((message.getData(3) & 0xff) * 256 + (message.getData(2) & 0xff)) / 4;
 		throttlePosition = (message.getData(1) & 0xff) / 255;
-		result.handled = 0xffffff00L;
+		// mop: throttleposition contains a copy on byte 7 for whatever reason....treat it as handled as well
+		result.handled = 0xff0000ffffff00L;
 		return result;
 	}
 	
