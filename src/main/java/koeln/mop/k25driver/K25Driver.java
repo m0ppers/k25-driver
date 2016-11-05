@@ -12,6 +12,9 @@ public class K25Driver implements CanDriver {
 	private int odometer;
 	private int rpm;
 	private int gear;
+	private boolean leftTurnSignal;
+	private boolean rightTurnSignal;
+	private boolean highBeam;
 	private double engineTemperature;
 	private double airTemperature;
 	private double fuelLevel;
@@ -69,7 +72,8 @@ public class K25Driver implements CanDriver {
 			K25Address.FRONTWHEEL.getValue(),
 			K25Address.REARWHEEL.getValue(),
 			K25Address.ODOMETER.getValue(),
-			K25Address.ZFE.getValue()
+			K25Address.ZFE.getValue(),
+			K25Address.LIGHTING.getValue()
 		};
 		return addresses;
 	}
@@ -94,6 +98,8 @@ public class K25Driver implements CanDriver {
 				return parseEngine(message);
 			case ZFE:
 				return parseZfe(message);
+			case LIGHTING:
+				return parseLighting(message);
 			default:
 				return new ConsumeResult();
 		}
@@ -177,6 +183,25 @@ public class K25Driver implements CanDriver {
 	
 		throttlePosition = (message.getData(1) & 0xff) / 255;
 		result.handled |= 0xff00L;
+		return result;
+	}
+	
+	private ConsumeResult parseLighting(CanMessage message) {
+		ConsumeResult result = new ConsumeResult();
+		
+		rightTurnSignal = leftTurnSignal = false;
+		int turnByte = message.getData(7) & 0xff;
+		if (turnByte == 0xe7) {
+			leftTurnSignal = true;
+			rightTurnSignal = true;
+		} else if (turnByte == 0xd7) {
+			leftTurnSignal = true;
+		} else if (turnByte == 0xe7) {
+			rightTurnSignal = true;	
+		}
+		
+		highBeam = (message.getData(6) & 0xf) == 0x9;
+		result.handled = 0xff0f000000000000L;
 		return result;
 	}
 }

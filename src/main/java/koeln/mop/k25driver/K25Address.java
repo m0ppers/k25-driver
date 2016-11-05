@@ -2,6 +2,7 @@ package koeln.mop.k25driver;
 
 public enum K25Address {
 	THROTTLE(0x10c),
+	LIGHTING(0x130),
 	FRONTWHEEL(0x294),
 	REARWHEEL(0x2a8),
 	ENGINE(0x2bc),
