@@ -31,7 +31,7 @@ public class K25DriverTest {
 		message.setData(4, (byte) 0xff);
 		message.setData(5, (byte) 0xcf);
 		driver.onCanMessage(message);
-		assertEquals(15, driver.getRearSpeed());
+		assertEquals(17, driver.getRearSpeed());
 		assertEquals(53247, driver.getRearTraveled());
 	}
 	

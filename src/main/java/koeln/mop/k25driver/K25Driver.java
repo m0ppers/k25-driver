@@ -127,7 +127,7 @@ public class K25Driver implements CanDriver {
 	private ConsumeResult parseRearWheel(CanMessage message) {
 		ConsumeResult result = new ConsumeResult();
 		// mop: wtf 0.06 :S
-		this.rearSpeed = (int) (((message.getData(3) & 0xff) * 256 + (message.getData(2) & 0xff)) * 0.06);
+		this.rearSpeed = (int) (((message.getData(3) & 0xff) * 256 + (message.getData(2) & 0xff)) * 0.065 + 1);
 		this.rearTraveled = (message.getData(5) & 0xff) * 256 + (message.getData(4) & 0xff); 
 		result.handled = 0xffffffff0000L;
 		return result;
@@ -136,7 +136,7 @@ public class K25Driver implements CanDriver {
 	private ConsumeResult parseFrontWheel(CanMessage message) {
 		ConsumeResult result = new ConsumeResult();
 		// mop: wtf 0.06 :S
-		this.frontSpeed = (int) (((message.getData(3) & 0xff) * 256 + (message.getData(2) & 0xff)) * 0.06);
+		this.frontSpeed = (int) (((message.getData(3) & 0xff) * 256 + (message.getData(2) & 0xff)) * 0.065 + 1);
 		this.frontTraveled = (message.getData(5) & 0xff) * 256 + (message.getData(4) & 0xff); 
 		result.handled = 0xffffffff0000L;
 		return result;
